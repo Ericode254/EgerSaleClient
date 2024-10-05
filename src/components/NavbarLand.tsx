@@ -1,6 +1,8 @@
 import { Button, Navbar, NavbarBrand, NavbarCollapse, NavbarLink, NavbarToggle } from "flowbite-react";
+import { useNavigate } from "react-router-dom";
 
 const NavbarLand = () => {
+    const navigate = useNavigate();
     return (
         <Navbar fluid rounded className="bg-gradient-to-r from-green-900 to-gray-800 text-white">
             <NavbarBrand href="/">
@@ -9,8 +11,8 @@ const NavbarLand = () => {
             </NavbarBrand>
 
             <div className="flex md:order-2">
-                <Button className="mr-2 bg-green-700 hover:bg-green-600 text-white rounded-lg">Sign Up</Button>
-                <Button className="bg-gray-700 hover:bg-gray-600 text-white rounded-lg">Sign In</Button>
+                <Button className="mr-2 bg-green-700 hover:bg-green-600 text-white rounded-lg" onClick={() => navigate("/auth/signup")}>Sign Up</Button>
+                <Button className="bg-gray-700 hover:bg-gray-600 text-white rounded-lg" onClick={() => navigate("/auth/signin")}>Sign In</Button>
                 <NavbarToggle />
             </div>
 
@@ -18,12 +20,12 @@ const NavbarLand = () => {
                 <NavbarLink href="/" className="text-white hover:text-green-500" active>
                     Home
                 </NavbarLink>
-                <NavbarLink href="#about" className="text-white hover:text-green-500">
+                <NavbarLink href="/about" className="text-white hover:text-green-500">
                     About
                 </NavbarLink>
-                <NavbarLink href="#services" className="text-white hover:text-green-500">
+                {/* <NavbarLink href="#services" className="text-white hover:text-green-500">
                     Services
-                </NavbarLink>
+                </NavbarLink> */}
                 {/* <NavbarLink href="#pricing" className="text-white hover:text-green-500">
                     Pricing
                 </NavbarLink>

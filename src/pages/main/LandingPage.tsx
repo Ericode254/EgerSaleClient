@@ -42,7 +42,7 @@ const LandingPage = () => {
                         Welcome to EgerSale
                     </h1>
                     <p className="text-lg text-gray-300 mb-6 text-center max-w-md">
-                        Discover products from salers all around Egerton and even become a saler yourself. A saling platform brought right to your door step. Join us now and discover what EgerSale has to offer.
+                        Discover products from sellers all around Egerton and even become a seller yourself. A selling platform brought right to your door step. Join us now and discover what EgerSale has to offer.
                     </p>
                     <button className="px-6 py-3 bg-green-600 text-white rounded-full font-semibold shadow-lg hover:scale-105 hover:bg-green-700 transition duration-300 ease-in-out">
                         Register Now
