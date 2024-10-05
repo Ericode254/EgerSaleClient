@@ -4,7 +4,7 @@ const SignIn = () => {
             <div className="bg-gray-900 p-8 rounded-lg shadow-lg max-w-md w-full">
                 <h2 className="text-3xl font-bold text-white text-center mb-6">Sign In</h2>
 
-                {/* Email Section */}
+                /* Email Section */
                 <div className="mb-4">
                     <label className="block text-gray-300 text-sm font-semibold mb-2" htmlFor="email">
                         Email
