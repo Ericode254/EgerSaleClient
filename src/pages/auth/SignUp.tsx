@@ -1,18 +1,23 @@
-import axios from "axios";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { auth } from "./firebase";
+import { FcGoogle } from "react-icons/fc";
+import { Link, useNavigate } from "react-router-dom"; // Make sure to import Link for routing
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    phone: '',
-    password: '',
-    confirmPassword: '',
+    username: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirmPassword: "",
   });
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false); // Added loading state
+  const navigate = useNavigate();
 
-  const handleSubmit = async () => {
+  const handleSignup = async () => {
     // Validate passwords
     if (formData.password !== formData.confirmPassword) {
       setError("Passwords do not match");
@@ -20,19 +25,37 @@ const SignUp = () => {
     }
 
     // Clear error and proceed with signup logic
-    setError('');
+    setError("");
+    setLoading(true); // Set loading to true when processing
     try {
-      const response = await axios.post('/api/auth/signup', {
-        username: formData.username,
-        email: formData.email,
-        phone: formData.phone,
-        password: formData.password,
-      });
-
-      toast.success(response.data.message || "Registration successful!");
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        formData.email,
+        formData.password
+      );
+      console.log("User signed up:", userCredential.user);
+      toast.success("Registration successful!");
+      navigate("/auth/signin");
+      // Optional: Save additional user data (e.g., username, phone) to your database
+      // axios.post('/api/save-user-data', { username: formData.username, phone: formData.phone });
     } catch (err) {
       console.error(err);
       toast.error("Error during registration");
+    } finally {
+      setLoading(false); // Set loading to false after processing
+    }
+  };
+
+  const handleGoogleSignup = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      const result = await signInWithPopup(auth, provider);
+      console.log("Google sign-in successful:", result.user);
+      toast.success("Google sign-in successful!");
+      navigate("/auth/signin");
+    } catch (error) {
+      console.error("Google sign-in error:", error);
+      toast.error("Error during Google sign-in");
     }
   };
 
@@ -44,7 +67,10 @@ const SignUp = () => {
 
         {/* Username Section */}
         <div className="mb-4">
-          <label className="block text-gray-300 text-sm font-semibold mb-2" htmlFor="username">
+          <label
+            className="block text-gray-300 text-sm font-semibold mb-2"
+            htmlFor="username"
+          >
             Username
           </label>
           <input
@@ -58,7 +84,10 @@ const SignUp = () => {
 
         {/* Email Section */}
         <div className="mb-4">
-          <label className="block text-gray-300 text-sm font-semibold mb-2" htmlFor="email">
+          <label
+            className="block text-gray-300 text-sm font-semibold mb-2"
+            htmlFor="email"
+          >
             Email
           </label>
           <input
@@ -72,7 +101,10 @@ const SignUp = () => {
 
         {/* Phone Number Section */}
         <div className="mb-4">
-          <label className="block text-gray-300 text-sm font-semibold mb-2" htmlFor="phone">
+          <label
+            className="block text-gray-300 text-sm font-semibold mb-2"
+            htmlFor="phone"
+          >
             Phone Number
           </label>
           <input
@@ -86,7 +118,10 @@ const SignUp = () => {
 
         {/* Password Section */}
         <div className="mb-4">
-          <label className="block text-gray-300 text-sm font-semibold mb-2" htmlFor="password">
+          <label
+            className="block text-gray-300 text-sm font-semibold mb-2"
+            htmlFor="password"
+          >
             Password
           </label>
           <input
@@ -100,7 +135,10 @@ const SignUp = () => {
 
         {/* Confirm Password Section */}
         <div className="mb-4">
-          <label className="block text-gray-300 text-sm font-semibold mb-2" htmlFor="confirm-password">
+          <label
+            className="block text-gray-300 text-sm font-semibold mb-2"
+            htmlFor="confirm-password"
+          >
             Confirm Password
           </label>
           <input
@@ -114,10 +152,41 @@ const SignUp = () => {
         </div>
 
         {/* Submit Button */}
-        <div className="text-center">
-          <button className="w-full px-4 py-2 bg-green-700 hover:bg-green-600 text-white font-semibold rounded-lg transition duration-300 ease-in-out transform hover:scale-105" onClick={handleSubmit}>
-            Sign Up
+        <div className="text-center mb-2">
+          <button
+            className="w-full px-4 py-2 bg-green-700 hover:bg-green-600 text-white font-semibold rounded-lg transition duration-300 ease-in-out transform hover:scale-105"
+            onClick={handleSignup}
+            disabled={loading} // Disable the button when loading
+          >
+            {loading ? (
+              <svg className="animate-spin h-5 w-5 mx-auto" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="none" d="M4 12a8 8 0 0116 0 8 8 0 01-16 0"></path>
+              </svg>
+            ) : (
+              "Sign Up"
+            )}
           </button>
+        </div>
+
+        {/* Google Signup Button */}
+        <div className="text-center">
+          <button
+            className="w-full px-4 py-2 bg-blue-700 hover:bg-blue-600 text-white font-semibold rounded-lg transition duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center"
+            onClick={handleGoogleSignup}
+          >
+            <FcGoogle className="mr-2 text-2xl" />
+            Sign Up with Google
+          </button>
+        </div>
+
+        {/* Sign In Link */}
+        <div className="mt-4 text-center">
+          <Link
+            to="/auth/signin"
+            className="text-green-500 hover:underline font-semibold text-sm">
+            Already have an account? Sign In
+          </Link>
         </div>
       </div>
     </div>
@@ -125,3 +194,4 @@ const SignUp = () => {
 };
 
 export default SignUp;
+
