@@ -8,6 +8,7 @@ import ForgotPassword from './pages/auth/ForgotPassword'
 import ResetPassword from './pages/auth/ResetPassword'
 import { AuthProvider } from './pages/auth/AuthContext'
 import ProtectedRoute from './components/ProtectedRoute'
+import Contact from './pages/main/Contact'
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
           <Route path="/about" element={<About />} />
           <Route path='/auth/forgot-password' element={<ForgotPassword />} />
           <Route path='/auth/reset-password' element={<ResetPassword />} />
+          <Route path='/home/contact' element={<ProtectedRoute><Contact /></ProtectedRoute>} />
         </Routes>
       </AuthProvider>
     </>

@@ -1,17 +1,25 @@
 import { useNavigate } from "react-router-dom";
 import NavbarLand from "../../components/NavbarLand";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const LandingPage = () => {
-  const [showPopup, setShowPopup] = useState(true);
+  const [showPopup, setShowPopup] = useState(false);
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!localStorage.getItem("popup")) {
+      setShowPopup(true);
+    }
+  }, [showPopup]);
 
   const handlePopupClose = () => {
     setShowPopup(false);
+    localStorage.setItem("popup", "true");
   };
 
   const handleRegisterPopUp = () => {
     setShowPopup(false);
+    localStorage.setItem("popup", "true");
     navigate("/auth/signup")
   };
 
