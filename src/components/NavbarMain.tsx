@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Avatar, Dropdown, Navbar, Modal, Button } from "flowbite-react";
 import { auth } from "../pages/auth/firebase"; // Adjust the path to your Firebase config
 import { signOut } from "firebase/auth"; // Import signOut from Firebase
-import Contact from "../pages/about/Contact";
+import Contact from "../pages/main/Contact";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
@@ -10,7 +10,6 @@ const NavbarMain = () => {
   // State for controlling the modal visibility
   const [isContactOpen, setIsContactOpen] = useState(false);
 
-  const openContactModal = () => setIsContactOpen(true);
   const closeContactModal = () => setIsContactOpen(false);
 
   const navigate = useNavigate();
@@ -47,7 +46,7 @@ const NavbarMain = () => {
             Sell Product
           </Navbar.Link>
           {/* Trigger Contact Modal */}
-          <Navbar.Link href="#" className="text-white hover:text-green-500" onClick={openContactModal}>
+          <Navbar.Link href="/home/contact" className="text-white hover:text-green-500">
             Contact
           </Navbar.Link>
         </Navbar.Collapse>

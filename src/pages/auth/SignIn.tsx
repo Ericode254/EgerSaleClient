@@ -42,8 +42,8 @@ const SignIn = () => {
     try {
       const result = await signInWithPopup(auth, provider);
       console.log("Google sign-in successful:", result.user);
-      toast.success("Google sign-in successful!");
       navigate("/home");
+      toast.success("Google sign-in successful!");
     } catch (error) {
       console.error("Google sign-in error:", error);
       toast.error("Error during Google sign-in");

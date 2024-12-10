@@ -64,6 +64,7 @@ const SignUp = () => {
       <Toaster position="top-center" />
       <div className="bg-gray-900 p-3 rounded-lg shadow-lg max-w-sm w-full">
         <h2 className="text-3xl font-bold text-white text-center mb-2">Sign Up</h2>
+        {/* TODO: show the error message when necessary */}
 
         {/* Username Section */}
         <div className="mb-4">

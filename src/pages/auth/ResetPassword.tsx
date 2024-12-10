@@ -3,6 +3,7 @@ import { auth } from "./firebase";
 import { updatePassword } from "firebase/auth";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import LoadSpinner from "../../components/LoadSpinner";
 
 const ResetPassword = () => {
   const [newPassword, setNewPassword] = useState<string>("");
@@ -25,7 +26,7 @@ const ResetPassword = () => {
       navigate("/home");
       toast.success("Password successfully reset!");
     } catch (error) {
-      console.error("Error resetting password:", error.code, error.message);
+      console.error("Error resetting password:", error, error);
       toast.error("Error resetting password. Please try again.");
       setError("Error resetting password. Please try again.");
     } finally {
@@ -59,10 +60,7 @@ const ResetPassword = () => {
             disabled={loading}
           >
             {loading ? (
-              <svg className="animate-spin h-5 w-5 mx-auto" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                <path className="opacity-75" fill="none" d="M4 12a8 8 0 0116 0 8 8 0 01-16 0"></path>
-              </svg>
+              <LoadSpinner />
             ) : (
               "Reset Password"
             )}
